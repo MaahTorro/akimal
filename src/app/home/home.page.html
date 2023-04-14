@@ -1,0 +1,50 @@
+<ion-content [fullscreen]="true">
+
+
+  <div id="container">
+
+    <h3 size="large">Pense em um animal!</h3>
+
+    <img src="./assets/icon/rogerio.png" alt="">
+
+
+    <ion-card class="perguntas">
+      <div *ngIf="(resultado$ | async) === null; then thenBlock else elseBlock"></div>
+
+      <ng-template #thenBlock>
+        <ion-card-content>
+          O Animal que você pensou...
+          <br />
+          {{ pergunta$ | async }}
+        </ion-card-content>
+
+        <ion-button fill="clear" (click)="responder(true)">Sim</ion-button>
+        <ion-button fill="clear" (click)="responder(false)">Não</ion-button>
+      </ng-template>
+      <ng-template #elseBlock>
+        <ion-card-content>
+          O Animal que você pensou é {{ (resultado$ | async)?.nome }}
+        </ion-card-content>
+
+        <ion-button fill="clear" (click)="reiniciar()">Começar de novo</ion-button>
+      </ng-template>
+    </ion-card>
+
+
+
+    <div class="listadeanimais">
+      <ion-accordion-group>
+        <ion-accordion value="first">
+          <ion-item slot="header" color="light">
+            <ion-label>Lista de animais</ion-label>
+          </ion-item>
+
+          <div class="ion-padding" slot="content" *ngFor="let animal of animais$ | async">
+            {{animal.nome}}
+          </div>
+        </ion-accordion>
+      </ion-accordion-group>
+
+    </div>
+  </div>
+</ion-content>
